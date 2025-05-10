@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boletim de Notícias</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Courier+Prime:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:400,700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: 
+        radial-gradient(at top left, rgba(255,255,255,0.05), transparent 50%),
+        radial-gradient(at bottom right, rgba(255,255,255,0.05), transparent 50%),
+        linear-gradient(135deg, #000, #444);
+      background-blend-mode: screen;
+      background-size: 150% 150%;
+      font-family: 'Open Sans', sans-serif;
+      color: #fff;
+    }
+    
+    /* Typography adjustments for headings */
+    h1, h2, h3, .accordion-header {
+      font-family: 'Merriweather', serif;
+    }
+    
+    /* Improve readability with comfortable line-height */
+    p, li {
+      line-height: 1.6;
+    }
+    
+    /* Main Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 30px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center; 
+      justify-content: flex-start;
+    }
+    
+    /* Header */
+    header {
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 3.5em;
+      letter-spacing: 2px;
+      color: #ff9800;
+    }
+    header .edition {
+      margin-top: 10px;
+      font-size: 1.5em;
+      color: #fff;
+      font-style: italic;
+    }
+    
+    /* Navigation Menu */
+    .menu {
+      background: rgba(68, 68, 68, 0.9); 
+      padding: 15px 20px;
+      margin-bottom: 40px; 
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 800px; 
+    }
+    .menu .hamburger-container { 
+      display: none;
+    }
+    .menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      width: 100%;
+    }
+    .menu ul li {
+      margin: 8px 0; 
+      width: 90%; 
+      max-width: 350px; 
+      text-align: center;
+    }
+    .menu ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: color 0.3s, background-color 0.3s; 
+      cursor: pointer;
+      font-family: 'Roboto Mono', monospace; 
+      font-size: 1em; 
+      display: block; 
+      padding: 10px 5px;
+      border-radius: 4px; 
+    }
+    .menu ul li a:hover {
+      color: #222; 
+      background-color: #ff9800; 
+    }
+
+    /* Home Highlights Section */
+    .home-highlights-section {
+        width: 100%;
+        margin-top: 20px; 
+        margin-bottom: 40px;
+        padding: 25px;
+        background: rgba(34, 34, 34, 0.7); 
+        border: 1px solid #555;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .home-highlights-section h2 {
+        color: #ff9800;
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-size: 2.2em;
+        border-bottom: 1px solid #555;
+        padding-bottom: 10px;
+    }
+    .highlights-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+    }
+    .highlight-item {
+        background: #3a3a3a; 
+        padding: 20px;
+        border-radius: 6px;
+        border: 1px solid #666;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .highlight-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    .highlight-item h3 { 
+        font-size: 1.4em;
+        color: #ff9800;
+        margin-top: 0;
+        margin-bottom: 12px; 
+        font-family: 'Merriweather', serif;
+        text-align: center; 
+    }
+    .highlight-item .highlight-thumbnail {
+        width: 100%;
+        height: 150px; 
+        object-fit: cover; 
+        border-radius: 4px; 
+        margin-bottom: 12px; 
+        border: 1px solid #505050; 
+    }
+    .highlight-item p.highlight-article-title { 
+        font-size: 1em; 
+        margin-bottom: 15px; 
+        color: #eee;
+        text-align: center; 
+        font-family: 'Open Sans', sans-serif; 
+        font-weight: bold; 
+    }
+    .highlight-item a.read-more-link {
+        display: block; 
+        width: fit-content; 
+        margin: 0 auto; 
+        margin-top: auto; 
+        text-decoration: none;
+        color: #222; 
+        background-color: #ff9800;
+        padding: 10px 20px; 
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .highlight-item a.read-more-link:hover {
+        background-color: #e68a00; 
+        color: #fff;
+    }
+    
+    /* News Sections (Conteúdo para o Modal) */
+    .news-section { 
+      display: none;
+    }
+    .modal-content h2.section-title-in-modal {
+        font-size: 2.2em;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #555; 
+        padding-bottom: 10px;
+        text-align: center;
+        color: #ff9800; 
+    }
+    
+    /* Article Styles (Aplicado aos artigos dentro do modal via JS) */
+    article.news-article {
+      padding: 20px;
+      margin-bottom: 0; 
+      background: #f0f0f0; 
+      border-radius: 0; 
+      color: #333; 
+    }
+    .accordion-content article.news-article:not(:last-child) {
+        border-bottom: 1px dashed #ccc; 
+        margin-bottom: 15px; 
+        padding-bottom: 15px;
+    }
+
+    article.news-article h3 { 
+      font-size: 1.8em;
+      margin-top: 0; 
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ddd; 
+      padding-bottom: 10px; 
+      text-align: left; 
+      color: #111; 
+    }
+    article.news-article p {
+      margin: 15px 0; 
+      text-align: justify;
+      font-size: 1em;
+      color: #333; 
+    }
+    article.news-article ul { 
+      margin: 15px 0 15px 20px;
+      padding: 0;
+      list-style-type: disc; 
+    }
+    article.news-article li {
+      margin: 10px 0; 
+      color: #333;
+    }
+    .article-image {
+      margin-bottom: 20px; 
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid #ddd; 
+    }
+    .article-image img {
+      width: 100%;
+      height: auto; 
+      max-height: 350px; 
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s;
+    }
+    .article-image img:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Estilo para o botão de link do vídeo */
+    .video-link-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ff9800; /* Cor laranja do tema */
+        color: #222; /* Cor escura do texto */
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        font-family: 'Open Sans', sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+        border: 1px solid #e68a00; /* Borda para dar mais definição */
+    }
+    .video-link-button:hover {
+        background-color: #e68a00; /* Laranja mais escuro no hover */
+        color: #fff;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none; 
+      position: fixed;
+      z-index: 300;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.75); 
+    }
+    .modal-content {
+      background-color: #e9e9e9; 
+      margin: 3% auto; 
+      padding: 25px;
+      border: 1px solid #aaa;
+      width: 90%;
+      max-width: 850px; 
+      border-radius: 10px; 
+      position: relative;
+      color: #333;
+      font-size: 1rem;
+      line-height: 1.6;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .modal-close {
+      color: #555; 
+      float: right;
+      font-size: 32px; 
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 1; 
+    }
+    .modal-close:hover,
+    .modal-close:focus {
+      color: #000;
+      text-decoration: none;
+    }
+    
+    /* Accordion (Sanfona) Styles */
+    .accordion-header {
+      background-color: #d0d0d0; 
+      color: #222;
+      cursor: pointer;
+      padding: 15px; 
+      border: 1px solid #bbb;
+      margin: 8px 0 0 0; 
+      font-size: 1.3em; 
+      text-align: left; 
+      border-radius: 5px 5px 0 0; 
+      transition: background-color 0.3s;
+    }
+    .accordion-header:hover {
+        background-color: #c0c0c0;
+    }
+    .accordion-header.active { 
+        background-color: #bfbfbf;
+    }
+    .accordion-content {
+      background-color: #f7f7f7; 
+      color: #333;
+      padding: 0; 
+      display: none; /* Conteúdo do acordeão começa fechado por padrão */
+      border: 1px solid #bbb;
+      border-top: none;
+      border-radius: 0 0 5px 5px; 
+      overflow: hidden; 
+    }
+    
+    .tts-pause {
+      display: block; 
+      font-size: 0;
+      line-height: 0;
+      height: 0;
+      width: 0; 
+      margin: 0;
+      padding: 0;
+      color: transparent;
+      border: none; 
+      overflow: hidden; 
+    }
+
+    /* Media Queries for Responsividade */
+
+    @media (min-width: 601px) {
+        .menu ul {
+            flex-direction: row; 
+            flex-wrap: wrap;
+            justify-content: center; 
+        }
+        .menu ul li {
+            margin: 5px 8px; 
+            width: auto; 
+            max-width: none; 
+        }
+         .menu ul li a {
+            padding: 8px 12px; 
+            font-size: 0.9em; 
+        }
+        .home-highlights-section h2 {
+            font-size: 2em;
+        }
+        .modal-content h2.section-title-in-modal {
+            font-size: 2em;
+        }
+        article.news-article h3 {
+            font-size: 1.7em;
+        }
+    }
+    
+    @media (min-width: 992px) {
+        .menu {
+             max-width: 800px; 
+        }
+        .menu ul {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px 12px; 
+        }
+        .menu ul li {
+            margin: 0; 
+            width: 100%; 
+        }
+        .menu ul li a {
+            font-size: 0.95em; 
+            padding: 10px 5px; 
+        }
+        header h1 {
+            font-size: 3.5em; 
+        }
+        header .edition {
+            font-size: 1.5em; 
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 30px 20px;
+        }
+        header h1 {
+            font-size: 2.8em;
+        }
+        header .edition {
+            font-size: 1.3em;
+        }
+         .highlights-grid {
+            gap: 20px; 
+        }
+        .highlight-item .highlight-thumbnail {
+            height: 130px; 
+        }
+        .highlight-item h3 {
+            font-size: 1.3em;
+        }
+        .highlight-item p.highlight-article-title {
+            font-size: 0.95em;
+        }
+        .modal-content {
+            padding: 20px;
+        }
+        .modal-content h2.section-title-in-modal {
+            font-size: 1.8em;
+        }
+        article.news-article h3 {
+            font-size: 1.6em;
+        }
+        .accordion-header {
+            font-size: 1.2em;
+            padding: 14px;
+        }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 15px;
+      }
+      header h1 {
+        font-size: 2.3em;
+      }
+      header .edition {
+        font-size: 1.2em;
+      }
+      .home-highlights-section {
+        padding: 20px;
+      }
+      .home-highlights-section h2 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+      }
+      .highlights-grid {
+        gap: 15px;
+      }
+      .highlight-item {
+        padding: 15px;
+      }
+      .highlight-item .highlight-thumbnail {
+          height: 120px; 
+      }
+      .modal-content {
+        width: 95%;
+        margin: 5% auto;
+        padding: 15px;
+      }
+      .modal-content h2.section-title-in-modal {
+        font-size: 1.6em;
+      }
+      article.news-article h3 {
+        font-size: 1.4em;
+      }
+      article.news-article p {
+        font-size: 0.95em;
+      }
+      .accordion-header {
+        font-size: 1.1em;
+        padding: 12px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2em;
+      }
+      header .edition {
+        font-size: 1.1em;
+      }
+      .menu ul li a { 
+        font-size: 0.95em;
+      }
+      .home-highlights-section h2 {
+        font-size: 1.6em;
+      }
+      .highlight-item .highlight-thumbnail {
+          height: 110px; 
+       }
+       .highlight-item h3 {
+        font-size: 1.2em; 
+      }
+      .highlight-item p.highlight-article-title {
+        font-size: 0.9em; 
+      }
+      .highlight-item a.read-more-link {
+        padding: 8px 12px;
+        font-size: 0.9em;
+      }
+      .modal-content {
+        padding: 15px 10px; 
+        font-size: 0.9rem; 
+      }
+      .modal-content h2.section-title-in-modal {
+        font-size: 1.4em;
+      }
+      article.news-article h3 {
+        font-size: 1.3em;
+      }
+      article.news-article p {
+        font-size: 0.9em;
+      }
+      .accordion-header {
+        font-size: 1em;
+        padding: 10px;
+      }
+    }
+    
+  </style>   
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Boletim Semanal de Notícias</h1>
+      <p class="edition">Atualizado em: 10/05/2025</p> 
+    </header>
+    
+    <nav class="menu">
+      <div class="hamburger-container"> 
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="menu-label">Menu</span>
+      </div>
+      <ul>
+        <li><a data-section="#inteligencia-artificial">INTELIGÊNCIA ARTIFICIAL</a></li>
+        <li><a data-section="#inovacao-tecnologica">INOVAÇÃO TECNOLÓGICA</a></li>
+        <li><a data-section="#saude-tecnologia">SAÚDE E TECNOLOGIA</a></li>
+        <li><a data-section="#deu-ruim">BUGOU!</a></li>
+        <li><a data-section="#noticias-variadas">NOTÍCIAS VARIADAS</a></li>
+        <li><a data-section="#curiosidades">CURIOSIDADES, ANÁLISES E DICAS</a></li>
+      </ul>
+    </nav>
+
+    <section id="home-highlights" class="home-highlights-section">
+        <h2>Destaques da Semana</h2>
+        <div class="highlights-grid">
+            </div>
+    </section>
+
+  </div> <section id="inteligencia-artificial" class="news-section">
+    <h2>INTELIGÊNCIA ARTIFICIAL</h2>
+    <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/gemini-2.5-pro-1920x1080.jpg" alt="Google lança Gemini 2.5 Pro Preview com foco em web, código e vídeo">
+        </div>
+        <h3>Google lança Gemini 2.5 Pro Preview com foco em web, código e vídeo</h3>
+        <p>Dias antes do aguardado evento Google I/O 2025, a empresa anunciou o lançamento do Gemini 2.5 Pro Preview (edição I/O), uma atualização estratégica de seu modelo de inteligência artificial. A nova versão já está disponível na API do Gemini, nas plataformas Vertex AI e AI Studio, além de acessível via web e dispositivos móveis, mantendo os mesmos preços da versão anterior.</p>
+       
+        <p><strong>Destaques técnicos e avanços em desenvolvimento web</strong></p>
+        <p>O Gemini 2.5 Pro apresenta avanços significativos em codificação, com melhorias na edição e transformação de código, além de maior eficácia em chamadas de função. O modelo se destaca especialmente na criação de aplicativos web interativos e esteticamente atrativos, liderando o WebDev Arena Leaderboard — ranking que avalia a performance de modelos em tarefas de desenvolvimento web.</p>
+       
+        <p><strong>Compreensão de vídeo e resposta à comunidade</strong></p>
+        <p>Outro ponto forte é a compreensão de vídeo, com o modelo atingindo 84,8% de acerto no benchmark VideoMME, um dos mais relevantes do setor. O Google também enfatizou que o feedback dos desenvolvedores foi essencial para aprimorar a nova versão, especialmente na redução de erros e no aumento da adaptabilidade do modelo.</p>
+       
+        <p><strong>Expectativas para o I/O 2025</strong></p>
+        <p>O lançamento reforça a posição do Google na disputa pela liderança em IA generativa, competindo diretamente com nomes como OpenAI e xAI. A expectativa é de que mais inovações relacionadas ao Gemini sejam reveladas durante o evento I/O.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/Destaque-Samsung-Gemini-geracao-Z-1920x1080.jpg" alt="Samsung aposta em IA para conquistar a Geração Z com o Galaxy S25 Ultra">
+        </div>
+        <h3>Samsung aposta em IA para conquistar a Geração Z com o Galaxy S25 Ultra</h3>
+        <p>A Samsung lançou uma nova campanha publicitária que destaca o uso do Galaxy S25 Ultra em conjunto com o Gemini Live, inteligência artificial do Google, como aliados no cotidiano da Geração Z — público nascido entre 1995 e 2010. A proposta é mostrar como a IA pode ajudar em tarefas simples, como dúvidas na cozinha ou estudos, reforçando a imagem de um "companheiro digital".</p>
+       
+        <p><strong>Anúncios práticos e linguagem acessível</strong></p>
+        <p>Com três vídeos curtos produzidos pela BBH Singapore, a campanha evita o tom futurista comum em peças sobre IA e aposta na simplicidade. As situações mostradas vão de lavanderia a preparação para provas, sempre com a IA respondendo a perguntas como “me explique de um jeito simples”. O objetivo é tornar o uso da tecnologia mais próximo da realidade do público jovem.</p>
+       
+        <p><strong>IA como diferencial competitivo</strong></p>
+        <p>A estratégia reforça o foco da Samsung em tornar a inteligência artificial um diferencial-chave dos seus dispositivos. Dados recentes indicam que mais de 40% da Geração Z nos EUA já utiliza IA em atividades cotidianas, e a marca busca capitalizar essa tendência ao apresentar o Galaxy S25 como o celular ideal para esse público.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2024/07/cachorro-1920x1080.jpg" alt="Baidu quer usar IA para traduzir o que os animais dizem">
+        </div>
+        <h3>Baidu quer usar IA para “traduzir” o que os animais dizem</h3>
+        <p>A empresa chinesa Baidu registrou uma nova patente que propõe o uso de inteligência artificial para decodificar a comunicação animal. A tecnologia pretende transformar vocalizações, comportamentos e sinais fisiológicos de animais em linguagem compreensível para humanos, com foco na identificação de estados emocionais.</p>
+       
+        <p><strong>Comunicação entre espécies é o objetivo</strong></p>
+        <p>O sistema analisará sons e padrões comportamentais dos animais, associando-os a significados semânticos que permitam uma comunicação mais empática entre espécies. Ainda em fase de pesquisa, o projeto não tem previsão para lançamento comercial.</p>
+       
+        <p><strong>Esforços globais similares</strong></p>
+        <p>A proposta da Baidu se alinha a outras iniciativas internacionais, como o Projeto CETI, que tenta entender a linguagem das baleias, e o Earth Species Project, voltado à decodificação geral da comunicação animal. Pesquisadores destacam que essas tecnologias podem contribuir para o bem-estar animal e para estratégias de conservação.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://s2-g1.glbimg.com/aa8xPvortHV_qu09AUs4mEG3FbM=/0x0:3840x2160/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2025/K/A/8HtgLmR3uzEIrNGltaOQ/globo-canal-4-20250502-2000-frame-116598.jpeg" alt="IA impulsiona produtividade agrícola na Agrishow 2025">
+        </div>
+        <h3>IA impulsiona produtividade agrícola na Agrishow 2025</h3>
+        <p>A maior feira de tecnologia agrícola da América Latina, realizada em Ribeirão Preto (SP), movimentou mais de R$ 14 bilhões em negócios e mostrou como a inteligência artificial está transformando o setor agropecuário. A Agrishow 2025 destacou soluções que reduzem custos, aumentam a sustentabilidade e otimizam a produção.</p>
+       
+        <p><strong>Tecnologia de precisão com IA</strong></p>
+        <p>Entre os destaques, estão as pulverizadoras inteligentes capazes de identificar e eliminar plantas invasoras com precisão milimétrica, economizando até 90% dos insumos. A IA também permite o monitoramento remoto de tratores, otimizando o uso de recursos e prevenindo falhas em tempo real.</p>
+       
+        <p><strong>Sustentabilidade no campo</strong></p>
+        <p>Outra inovação foi o trator 100% movido a etanol, que promete reduzir em até 70% as emissões de gases do efeito estufa em comparação com modelos a diesel. A tecnologia reforça o papel da agricultura brasileira como referência em sustentabilidade e uso de biocombustíveis.</p>
+       
+        <p><strong>Adaptação constante</strong></p>
+        <p>Com mais de 800 expositores e quase 200 mil visitantes, a feira evidenciou a necessidade de constante atualização por parte dos produtores. Como afirmou um dos participantes, "todo ano a tecnologia muda, e a gente tem que acompanhar".</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/Captura-de-tela-2025-05-05-140238-1920x815.png" alt="China lança hospital virtual com agentes de IA para treinamento médico">
+        </div>
+        <h3>China lança hospital virtual com agentes de IA para treinamento médico</h3>
+        <p>A Universidade Tsinghua, por meio do Instituto de Pesquisa da Indústria de IA (AIR), lançou o “Agent Hospital”, um hospital totalmente virtual que utiliza agentes autônomos alimentados por modelos avançados de IA (GPT-3.5 e 4.0) para simular ambientes hospitalares e treinar sistemas médicos inteligentes.</p>
+       
+        <p><strong>Simulação completa do atendimento médico</strong></p>
+        <p>No hospital virtual, pacientes, enfermeiros e médicos são representados por agentes de IA. Esses agentes interagem entre si em processos que simulam toda a jornada de atendimento: da triagem ao acompanhamento pós-tratamento. O objetivo é permitir que os agentes aprendam e aprimorem habilidades médicas de forma autônoma, acelerando a formação e especialização.</p>
+       
+        <p><strong>Eficiência e escalabilidade na prática médica</strong></p>
+        <p>A ferramenta já simula o tratamento de doenças respiratórias como COVID-19, influenza A e B. Segundo os pesquisadores, enquanto um médico humano leva cerca de dois anos para atender 10 mil pacientes, um agente inteligente pode realizar essa tarefa em apenas alguns dias.</p>
+       
+        <p><strong>Autoevolução com aprendizado contínuo</strong></p>
+        <p>O sistema é baseado no algoritmo “MedAgent-Zero”, que combina leitura de literatura médica com prática simulada. Isso permite que os agentes ganhem experiência e melhorem sua performance de forma semelhante aos profissionais de saúde reais, mas em ritmo acelerado.</p>
+       
+        <p>Apesar dos avanços, os pesquisadores ainda trabalham para ampliar o número de doenças simuladas e refinar o realismo do ambiente virtual. O projeto é um marco no uso de IA para formação médica e pode revolucionar a capacitação de profissionais de saúde no futuro.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/04/iStock-1331063982-1920x1080.jpg" alt="Quatro formas como a IA já transforma a vida cotidiana e o ambiente corporativo">
+        </div>
+        <h3>Quatro formas como a IA já transforma a vida cotidiana e o ambiente corporativo</h3>
+        <p>A inteligência artificial deixou de ser uma promessa futura para se tornar uma ferramenta prática no dia a dia de empresas e pessoas. Durante o Web Summit Rio 2025, especialistas destacaram como a IA está sendo aplicada em diferentes áreas com impactos reais.</p>
+       
+        <p><strong>1. IA como assistente e ferramenta de automação no trabalho</strong></p>
+        <p>Empresas de todos os setores estão utilizando IA para agilizar tarefas repetitivas, como redigir documentos, organizar ideias, preparar apresentações e agendar compromissos. Isso libera tempo para atividades mais estratégicas e criativas.</p>
+       
+        <p><strong>2. IA como nova forma de busca</strong></p>
+        <p>Chatbots baseados em IA, como Gemini e ChatGPT, estão reformulando a forma como acessamos informações. Ao invés de listas de links, esses sistemas entregam respostas em linguagem natural, tornando a busca mais fluida e conversacional.</p>
+       
+        <p><strong>3. IA física e robótica</strong></p>
+        <p>A integração da IA com dispositivos físicos está se expandindo. Robôs com inteligência adaptativa já são usados para tarefas domésticas ou para acompanhamento de idosos, representando a união entre o digital e o real.</p>
+       
+        <p><strong>4. Convergência entre IA e computação quântica</strong></p>
+        <p>A combinação dessas tecnologias promete acelerar o desenvolvimento de modelos mais avançados de IA. A computação quântica pode otimizar algoritmos e melhorar o aprendizado de máquina, enquanto a IA pode ajudar a controlar sistemas quânticos complexos.</p>
+       
+        <p>Essas aplicações mostram que a IA já está entre nós – não apenas como tendência, mas como ferramenta funcional que molda o presente e o futuro.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2024/12/Hypes-tecnologia-2024-IA-generativa-1024x576.jpg" alt="5 IAs que estão transformando a vida de pessoas com deficiência">
+        </div>
+        <h3>5 IAs que estão transformando a vida de pessoas com deficiência</h3>
+        <p>O avanço da inteligência artificial tem proporcionado novas ferramentas para ampliar a acessibilidade e a autonomia de pessoas com deficiência. Conheça cinco soluções baseadas em IA que já estão fazendo a diferença:</p>
+       
+        <p><strong>1. Project Guideline – Navegação autônoma para pessoas com deficiência visual</strong></p>
+        <p>Desenvolvido pelo Google Research, o sistema utiliza uma câmera e fones de ouvido para orientar corredores com deficiência visual por meio de sinais sonoros. A IA identifica uma linha-guia no chão e avisa quando o usuário se desvia do caminho.</p>
+       
+        <p><strong>2. LuzIA – Transcrição de áudios no WhatsApp</strong></p>
+        <p>O chatbot LuzIA permite que usuários enviem áudios via WhatsApp e recebam a transcrição em texto, recurso útil para pessoas com deficiência auditiva ou visual. Basta adicionar o contato e iniciar a conversa.</p>
+       
+        <p><strong>3. Braina – Assistente por voz para computadores</strong></p>
+        <p>Compatível com Windows, esse software entende comandos de voz e executa tarefas no computador, como abrir programas ou pesquisar na web. Reconhece 100 idiomas e oferece mais autonomia para pessoas com deficiência visual.</p>
+       
+        <p><strong>4. Parrotron – Apoio para distúrbios de fala</strong></p>
+        <p>Criado pelo Google, converte fala com padrões atípicos em voz sintetizada e fluente, facilitando a comunicação de pessoas com dificuldades na fala, sem depender de digitação ou tradução textual.</p>
+       
+        <p><strong>5. Rogervoice – Transcrição de ligações em tempo real</strong></p>
+        <p>O app transcreve chamadas de voz diretamente na tela do celular, tornando possível acompanhar ligações mesmo com deficiência auditiva. A iniciativa foi idealizada por um CEO que também é surdo.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/04/inteligencia-artificial-legislacao-1024x683.jpg" alt="2025: o ano das IAs – abundância de conteúdo, escassez de significado">
+        </div>
+        <h3>2025: o ano das IAs – abundância de conteúdo, escassez de significado</h3>
+        <p>A inteligência artificial se consolidou em 2025 como peça central na criação de conteúdo digital, mas especialistas alertam: quantidade não significa qualidade. Segundo a consultoria Gartner, até 2026, 90% do conteúdo online será produzido por máquinas, o que impõe novos desafios na comunicação digital.</p>
+       
+        <p><strong>A produção é fácil, emocionar é difícil</strong></p>
+        <p>Com ferramentas cada vez mais acessíveis, a produção de texto, imagem e vídeo se multiplicou. No entanto, muito desse conteúdo carece de profundidade e relevância, tornando mais difícil engajar emocionalmente o público.</p>
+       
+        <p><strong>IA imparcial? Nem sempre</strong></p>
+        <p>Além da superficialidade, há preocupações éticas. Modelos de IA não são neutros e podem reproduzir vieses, enquanto a regulamentação não acompanha o ritmo das inovações tecnológicas. Essa lacuna levanta alertas sobre o uso responsável dessas ferramentas.</p>
+       
+        <p><strong>A nova disputa: sentido e significância</strong></p>
+        <p>Com a automação dominando a criação, o diferencial está em produzir conteúdos que gerem valor real, conectem-se com as pessoas e respeitem princípios éticos. Como destacou Alessandra Montini, da Fia Business School, o momento exige equilíbrio entre tecnologia e humanidade.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/03/chatbotss-1920x1080.jpg" alt="Estudo aponta que pedidos por respostas curtas aumentam risco de alucinações em IAs">
+        </div>
+        <h3>Estudo aponta que pedidos por respostas curtas aumentam risco de “alucinações” em IAs</h3>
+        <p>Uma pesquisa da empresa francesa Giskard revelou que orientar modelos de inteligência artificial a serem concisos pode comprometer a precisão de suas respostas. A prática, comum em interações com sistemas como GPT-4o, Claude 3.7 e Mistral Large, leva os modelos a priorizarem brevidade em detrimento da veracidade.</p>
+       
+        <p><strong>Menos contexto, mais erros</strong></p>
+        <p>O estudo identificou que instruções como “seja breve” reduzem a capacidade dos modelos de refutar premissas falsas, especialmente em perguntas ambíguas. Isso eleva a ocorrência de alucinações — respostas erradas, porém com tom de confiança — em temas sensíveis como saúde, política ou educação.</p>
+       
+        <p><strong>Estilo versus verdade</strong></p>
+        <p>A pesquisa também apontou que usuários que se expressam com confiança tendem a receber menos correções da IA, e que o estilo da resposta costuma ser mais valorizado do que sua fidelidade factual. O desafio, segundo a Giskard, é alinhar desempenho técnico à responsabilidade informacional.</p>
+       
+        <p><strong>Reflexo de um dilema maior</strong></p>
+        <p>A descoberta reforça um ponto crítico no desenvolvimento de IA generativa: a busca por equilíbrio entre uma boa experiência de uso e a entrega de respostas verdadeiras e completas — mesmo que isso signifique contrariar o desejo por concisão.</p>
+      </article>   
+  </section>
+
+
+  <section id="inovacao-tecnologica" class="news-section">
+    <h2>INOVAÇÃO TECNOLÓGICA</h2>
+    <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/drone-chuva-china2-1024x666.png" alt="China usa drones para aumentar a chuva e enche 30 piscinas olímpicas em um dia">
+        </div>
+        <h3>China usa drones para aumentar a chuva e enche 30 piscinas olímpicas em um dia</h3>
+        <p>Cientistas chineses utilizaram drones para semear nuvens com iodeto de prata, um composto químico que estimula a formação de gotas de chuva. A operação, realizada na região de Xinjiang, resultou em um aumento de 4% na precipitação em apenas um dia — o equivalente a 18,5 milhões de galões de água, volume suficiente para encher 30 piscinas olímpicas.</p>
+       
+        <p><strong>Tecnologia de precisão para manipular o clima</strong></p>
+        <p>O experimento, conduzido pela Administração Meteorológica da China, empregou drones que voaram a 5,4 mil metros de altitude e espalharam apenas um quilo do composto. A técnica mostrou-se eficiente, com baixo custo e alta segurança, além de ser adaptável a diversas condições climáticas.</p>
+       
+        <p><strong>Validação e dúvidas científicas</strong></p>
+        <p>Os resultados foram validados com dados históricos, imagens de satélite e medições das gotas de chuva, confirmando um aumento de 3,8% no volume total. No entanto, os cientistas ainda investigam a consistência do método e seus possíveis impactos a longo prazo.</p>
+       
+        <p><strong>Geoengenharia contra a desertificação</strong></p>
+        <p>A iniciativa é parte de um esforço mais amplo da China para combater os efeitos da desertificação e das mudanças climáticas, especialmente em regiões como Xinjiang, que já adotam ações como florestas artificiais e uso de energia solar para controle ambiental.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/image-3-1024x576.jpg" alt="Na Califórnia, robôs preparam hambúrgueres em 27 segundos em novo restaurante automatizado">
+        </div>
+        <h3>Na Califórnia, robôs preparam hambúrgueres em 27 segundos em novo restaurante automatizado</h3>
+        <p>O recém-inaugurado BurgerBots, localizado na Califórnia, surpreende ao colocar robôs no comando da cozinha. Criado pela ABB Robotics, o restaurante usa duas máquinas – o IRB 360 FlexPicker e o robô colaborativo YuMi – para montar hambúrgueres com alta precisão e em tempo recorde: apenas 27 segundos.</p>
+       
+        <p><strong>Eficiência automatizada, experiência humana</strong></p>
+        <p>Apesar da automação na cozinha, o atendimento ao público ainda é realizado por humanos. A proposta é que as máquinas assumam tarefas repetitivas, enquanto a equipe humana se concentra em criar experiências mais personalizadas para os clientes.</p>
+       
+        <p><strong>Expectativa de expansão</strong></p>
+        <p>A aceitação do conceito tem sido positiva. Pesquisa da ABB indica que 67% dos profissionais do setor gostariam de ver robôs em tarefas “maçantes ou perigosas”. A expectativa é que, nos próximos anos, o uso de robôs em restaurantes se torne uma prática comum, indo além da inovação para atender à crescente demanda por eficiência e segurança.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://t.ctcdn.com.br/JTSzZ_PSgrtGH0OdabBxBCSxjYQ=/1024x576/smart/i1003779.png" alt="Posha: robô cozinheiro promete reduzir em até 70% o tempo na cozinha">
+        </div>
+        <h3>Posha: robô cozinheiro promete reduzir em até 70% o tempo na cozinha</h3>
+        <p>A startup Posha apresentou seu novo robô cozinheiro de bancada, projetado para automatizar o preparo de refeições e aliviar a rotina de quem não gosta ou não tem tempo para cozinhar. O aparelho, que utiliza visão computacional, pode reduzir o tempo na cozinha de uma hora para apenas 10 a 20 minutos por dia.</p>
+       
+        <p><strong>Como funciona o Posha</strong></p>
+        <p>O funcionamento é simples: o usuário adiciona os ingredientes prontos no aparelho, informa a quantidade e escolhe a receita desejada. O robô realiza o preparo sozinho e avisa via alarme ou aplicativo quando a refeição está pronta — processo comparado ao uso de uma cafeteira ou máquina de lavar louças.</p>
+       
+        <p><strong>Alta demanda e expansão futura</strong></p>
+        <p>Com preço inicial de US$ 1.750 (cerca de R$ 9.979), o produto esgotou rapidamente nos Estados Unidos. A empresa já organiza uma nova leva e pretende expandir a disponibilidade para outros países.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/04/Design-sem-nome-2-1920x1000.jpg" alt="Cisco apresenta chip quântico mais eficiente e inaugura laboratório especializado">
+        </div>
+        <h3>Cisco apresenta chip quântico mais eficiente e inaugura laboratório especializado</h3>
+        <p>A Cisco Systems revelou um novo chip quântico projetado para acelerar o desenvolvimento da computação quântica. O dispositivo se destaca pela alta eficiência energética — consumindo menos de 1 megawatt — e pela compatibilidade com a infraestrutura de fibra óptica existente, o que facilita sua implementação progressiva.</p>
+       
+        <p><strong>Nova fase de pesquisa com laboratório quântico na Califórnia</strong></p>
+        <p>Além do lançamento, a Cisco também abriu um laboratório quântico em Santa Monica, Califórnia, com foco na criação de protótipos e no desenvolvimento de um kit de rede quântica. O espaço servirá de base para pesquisas sobre chips de emaranhamento e novos modelos de comunicação quântica.</p>
+       
+        <p><strong>Capacidade de processamento e inovação energética</strong></p>
+        <p>Diferente dos chips tradicionais que usam bits (0 ou 1), os chips quânticos utilizam qubits, que podem operar em múltiplos estados simultaneamente. Isso, aliado ao entrelaçamento quântico, permite um salto significativo na capacidade de processamento, com aplicações promissoras para áreas como medicina, criptografia e IA.</p>
+       
+        <p>Mesmo em estágio inicial, a inovação reforça a aposta da Cisco em liderar a transição para um ecossistema quântico funcional.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/iStock-1361214460-1920x1080.jpg" alt="Cidade indiana usa smartwatches para estudar impacto do calor em comunidades vulneráveis">
+        </div>
+        <h3>Cidade indiana usa smartwatches para estudar impacto do calor em comunidades vulneráveis</h3>
+        <p>Ahmedabad, na Índia, iniciou um estudo inovador para monitorar os efeitos do calor extremo em populações vulneráveis usando smartwatches. Ao todo, 204 pessoas estão sendo acompanhadas durante um ano, com dispositivos que medem batimentos cardíacos, pulso e padrões de sono, além de registros semanais de pressão arterial.</p>
+       
+        <p><strong>Tecnologia contra crises climáticas</strong></p>
+        <p>A pesquisa também avalia se tintas refletivas em telhados ajudam a reduzir a temperatura dentro das residências, oferecendo soluções práticas para o calor crescente, especialmente em bairros de baixa renda.</p>
+       
+        <p><strong>Um problema de saúde pública</strong></p>
+        <p>A cidade já vivenciou crises provocadas pelo calor: em 2010, foram registradas quase 1.300 mortes em excesso, atribuídas às altas temperaturas. Diante disso, Ahmedabad desenvolveu um plano de ação para alertas climáticos e preparo dos hospitais.</p>
+       
+        <p><strong>Estudo global, desafio mundial</strong></p>
+        <p>A iniciativa, liderada por instituições da Nova Zelândia e Alemanha, também ocorre em Burkina Faso, Niue e no deserto de Sonora, no México. Quase 1,1 bilhão de pessoas vivem em áreas com alta vulnerabilidade ao calor, especialmente no sul da Ásia e na África, onde os impactos do aquecimento global podem ser letais.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://media.nationthailand.com/uploads/images/md/2025/04/TJ8k4a0dWaudnMlcvZNB.webp" alt="Tailândia apresenta o AI Police Cyborg 1.0, robô policial com reconhecimento facial e detecção de armas">
+        </div>
+        <h3>Tailândia apresenta o AI Police Cyborg 1.0, robô policial com reconhecimento facial e detecção de armas</h3>
+        <p>Inspirado em ficções como Robocop, o governo tailandês revelou o AI Police Cyborg 1.0, robô humanoide equipado com inteligência artificial para atuar na segurança pública. A máquina estreou durante o festival Songkran, em Nakhon Pathom, onde foi usada para monitoramento de multidões.</p>
+       
+        <p><strong>Tecnologia policial avançada</strong></p>
+        <p>O robô é equipado com câmeras inteligentes integradas ao corpo, capazes de realizar reconhecimento facial, identificar pessoas com mandados de prisão e rastrear suspeitos com base em características físicas, roupas ou gênero. Ele também detecta armas como pistolas, facas e espadas e envia dados em tempo real ao centro de comando.</p>
+       
+        <p><strong>Funções adicionais de vigilância</strong></p>
+        <p>Além disso, o AI Police Cyborg pode acionar drones e controlar câmeras CFTV, ampliando a cobertura de segurança. Seu sistema de análise de vídeo permite resposta rápida em situações de risco.</p>
+       
+        <p><strong>Reflexões e preocupações</strong></p>
+        <p>Apesar do impacto inicial positivo, o governo ainda não divulgou um balanço oficial da operação. A iniciativa levanta debates sobre o uso ético de reconhecimento facial e automação na segurança, em um cenário global que já testa soluções similares com cães-robôs e dispositivos armados.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/lg-display-1920x1080.jpg" alt="LG apresentará tela que cria botões físicos ao toque na SID Display Week 2025">
+        </div>
+        <h3>LG apresentará tela que cria botões físicos ao toque na SID Display Week 2025</h3>
+        <p>A LG Display vai revelar uma nova tecnologia interativa durante a SID Display Week 2025, na Califórnia. A inovação permite que telas planas se transformem em botões físicos ao toque, criando uma elevação tátil no exato ponto de contato do usuário.</p>
+       
+        <p><strong>Como funciona</strong></p>
+        <p>A tecnologia é baseada em um painel expansível que pode se deformar até 50% na área central, mantendo alta resolução (100 PPI) e espectro de cores RGB completo. Ao ser tocada, a superfície plana se expande, projetando um botão físico temporário, ideal para aplicações como painéis automotivos ou interfaces adaptativas.</p>
+       
+        <p><strong>Aplicações e expectativas</strong></p>
+        <p>Com foco inicial em sistemas embarcados, como carros, a tecnologia pode tornar a interação mais intuitiva e segura, especialmente durante a condução. Mais detalhes devem ser revelados no evento a partir de 13 de maio.</p>
+       
+        <p>A novidade representa um passo além das telas dobráveis, já presentes no portfólio da LG, e abre caminho para displays altamente responsivos e personalizáveis.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/Destaque-capa-invisibilidade-buraco.png-1920x1080.jpg" alt="Engenheiros criam capa de invisibilidade para buracos em estruturas">
+        </div>
+        <h3>Engenheiros criam “capa de invisibilidade” para buracos em estruturas</h3>
+        <p>Pesquisadores das universidades de Princeton e Georgia Tech desenvolveram uma solução inovadora para reforçar buracos em estruturas sem comprometer sua integridade. Inspirados na natureza, os engenheiros criaram uma espécie de “capa de invisibilidade” mecânica usando microestruturas que redirecionam o estresse ao redor das aberturas.</p>
+       
+        <p><strong>Como funciona a tecnologia</strong></p>
+        <p>Em vez de simplesmente reforçar o buraco com material adicional — técnica que pode gerar novos pontos de falha —, a solução proposta envolve moldar o material ao redor com formas internas que alteram como a tensão se distribui. O resultado é que a estrutura passa a se comportar como se o buraco não existisse.</p>
+       
+        <p><strong>Versatilidade e aplicações</strong></p>
+        <p>A técnica lida melhor com diferentes tipos de carga externa, como vibrações, calor ou vento, e foi inspirada em nós de árvores, que naturalmente redirecionam tensões. Potenciais aplicações incluem implantes médicos mais resistentes, estruturas prediais adaptáveis e restauração de obras de arte.</p>
+       
+        <p><strong>Impacto potencial</strong></p>
+        <p>Especialistas destacam a inovação como uma abordagem revolucionária, capaz de promover uma “camuflagem estrutural” eficaz em múltiplas direções de força — uma ferramenta promissora para engenharia, saúde e preservação cultural.</p>
+      </article>   
+  </section>
+
+
+  <section id="saude-tecnologia" class="news-section">
+    <h2>SAÚDE E TECNOLOGIA</h2>
+    <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2024/08/alcool-1-1920x1080.jpg" alt="Estudo da USP revela que consumo excessivo de álcool pode aumentar risco de demência">
+        </div>
+        <h3>Estudo da USP revela que consumo excessivo de álcool pode aumentar risco de demência</h3>
+        <p>Pesquisadores da Universidade de São Paulo (USP) identificaram uma forte associação entre o consumo elevado de álcool e o aumento do risco de demência, incluindo a doença de Alzheimer. A pesquisa analisou 1.781 indivíduos com mais de 50 anos, submetidos a autópsias após a morte, revelando que o álcool está ligado à presença de emaranhados tau, biomarcador clássico da doença.</p>
+       
+        <p><strong>Principais achados</strong></p>
+        <p>Indivíduos com consumo elevado de álcool tinham 41% mais risco de apresentar emaranhados tau.</p>
+        <p>Os mesmos pacientes mostraram menor massa cerebral e habilidades cognitivas prejudicadas.</p>
+        <p>A ingestão de oito ou mais drinques por semana foi associada à arteriosclerose hialina, que compromete o fluxo sanguíneo cerebral, agravando danos neurológicos.</p>
+       
+        <p><strong>Cuidado contínuo, mesmo após parar de beber</strong></p>
+        <p>O estudo constatou que os efeitos negativos persistem mesmo entre aqueles que interromperam o consumo antes da morte, apontando consequências duradouras do álcool no cérebro.</p>
+       
+        <p><strong>Relevância para saúde pública</strong></p>
+        <p>Embora os dados não confirmem causalidade direta, os resultados são considerados robustos e devem ser levados em conta na formulação de políticas de prevenção e conscientização sobre os riscos neurológicos do consumo alcoólico.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://tm.ibxk.com.br/2025/05/09/09112049679092.jpg?ims=1280x605" alt="Neurodiversidade como diferencial estratégico na tecnologia">
+        </div>
+        <h3>Neurodiversidade como diferencial estratégico na tecnologia</h3>
+        <p>Em 2025, incluir pessoas neurodivergentes — com perfis como autismo, TDAH ou dislexia — no ambiente de tecnologia deixou de ser apenas uma pauta de inclusão. Tornou-se um diferencial competitivo para empresas que desejam inovar com mais profundidade, criatividade e agilidade.</p>
+       
+        <p><strong>Cérebro fora da caixa, soluções fora do comum</strong></p>
+        <p>Pessoas neurodivergentes têm estilos cognitivos distintos, muitas vezes marcados por hiperfoco, pensamento analítico e resolução criativa de problemas. Em times diversos, essas habilidades desafiam a uniformidade de pensamento e expandem a capacidade de inovação.</p>
+       
+        <p><strong>Do conceito à prática</strong></p>
+        <p>Iniciativas como a da Intel, com a rede IDAN, mostram como criar ambientes acessíveis vai além da contratação: envolve ouvir os colaboradores, adaptar rotinas e redesenhar processos com empatia e intencionalidade. Pequenos ajustes, como clareza nas comunicações, ambientes mais tranquilos ou flexibilidade no trabalho, fazem grande diferença.</p>
+       
+        <p><strong>Transformar para crescer</strong></p>
+        <p>Empresas que ainda operam em modelos rígidos e padronizados correm o risco de estagnar. A neurodiversidade, quando acolhida, não só fortalece o time, mas também torna os produtos e serviços mais representativos e eficazes.</p>
+       
+        <p>A verdadeira inovação começa ao aceitar e valorizar o que é diferente. Neurodivergência não é limitação: é uma potência que, quando bem integrada, transforma ambientes e resultados.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2021/09/shutterstock_797669914-1024x576.jpg" alt="Expectativa de vida pode alcançar 100 anos até 2063, aponta estudo">
+        </div>
+        <h3>Expectativa de vida pode alcançar 100 anos até 2063, aponta estudo</h3>
+        <p>Pesquisadores da Universidade de Zurique afirmam que a expectativa de vida global continua crescendo, contrariando previsões de estagnação. Segundo o estudo, ainda não revisado por pares e publicado na plataforma bioRxiv, os avanços na longevidade humana persistem, especialmente em países em desenvolvimento, onde os ganhos continuam relevantes.</p>
+       
+        <p><strong>Dados apontam para crescimento linear</strong></p>
+        <p>Analisando registros do Banco de Dados de Mortalidade Humana, o estudo mostra que, entre 2000 e 2020, a expectativa de vida masculina aumentou em 1,96 ano por década, enquanto a feminina cresceu 1,45 ano. Se essa tendência se mantiver, as mulheres poderão atingir uma expectativa média de 100 anos até 2063.</p>
+       
+        <p><strong>Limite biológico ainda distante</strong></p>
+        <p>Os autores destacam que não há evidências concretas de um teto biológico próximo para a longevidade humana. O padrão de crescimento segue linear globalmente, mesmo com desaceleração nos países mais ricos.</p>
+       
+        <p><strong>Implicações para o futuro</strong></p>
+        <p>A possibilidade de viver mais de um século pode impactar áreas como saúde pública, previdência, economia e planejamento urbano. Adaptar políticas para uma população mais longeva será um desafio crescente para governos e empresas.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://s2-g1.glbimg.com/nGEpVgpshIvJi5LGnn_WA5nGR2A=/0x2414:3840x5397/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2025/H/G/IssqrRSfiGbXX73zBuAw/pexels-olly-3807632.jpg" alt="Mutação genética pode explicar por que algumas pessoas precisam de menos sono">
+        </div>
+        <h3>Mutação genética pode explicar por que algumas pessoas precisam de menos sono</h3>
+        <p>Uma nova pesquisa revela que uma mutação genética rara pode ser a responsável por permitir que algumas pessoas durmam menos do que a média sem sofrer prejuízos à saúde. O estudo, divulgado recentemente, identificou alterações no gene SIK3, associadas a um menor tempo de sono necessário para se sentir descansado.</p>
+       
+        <p><strong>Como foi feita a descoberta</strong></p>
+        <p>Os cientistas analisaram o DNA de pessoas que dormem pouco naturalmente — ou seja, sem apresentar distúrbios do sono — e se sentem bem ao acordar. Ao identificar a mutação, introduziram-na em camundongos, que passaram a dormir 31 minutos a menos por dia, um tempo relevante considerando a média de 12 horas de sono desses animais.</p>
+       
+        <p><strong>Entendendo o gene SIK3</strong></p>
+        <p>O SIK3 codifica uma enzima ativa no espaço entre os neurônios, influenciando os mecanismos cerebrais relacionados ao sono. A descoberta soma-se a outras quatro mutações genéticas ligadas à redução da necessidade de sono, estudadas desde os anos 2000.</p>
+       
+        <p><strong>Próximos passos</strong></p>
+        <p>Apesar dos resultados promissores, os pesquisadores alertam que os dados não representam uma resposta definitiva. Ainda é preciso entender como essas mutações afetam os ciclos de sono no longo prazo e se podem ser aplicadas a tratamentos ou diagnósticos.</p>
+       
+        <p><strong>Recomendações médicas</strong></p>
+        <p>Especialistas reforçam que, na ausência de uma predisposição genética comprovada, dormir menos que o recomendado pode trazer riscos à saúde. Sensação frequente de cansaço deve ser investigada por profissionais.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/iStock-2157592829-1920x1080.jpg" alt="Fungo da pele humana produz molécula com potencial antibiótico">
+        </div>
+        <h3>Fungo da pele humana produz molécula com potencial antibiótico</h3>
+        <p>Pesquisadores da Universidade do Oregon descobriram que a levedura <em>Malassezia sympodialis</em>, comum na pele humana, pode ser uma aliada no combate ao <em>Staphylococcus aureus</em>, bactéria causadora de infecções em tecidos moles e associada a meio milhão de hospitalizações anuais nos EUA.</p>
+       
+        <p><strong>Como funciona o efeito antibacteriano</strong></p>
+        <p>A <em>Malassezia</em> transforma os lipídios da pele em ácidos graxos hidroxilados que funcionam como detergentes. Essas moléculas atacam diretamente a membrana das bactérias, fazendo com que percam seu conteúdo interno — o que levou à eliminação do <em>Staphylococcus aureus</em> em apenas 15 minutos, durante testes de laboratório.</p>
+       
+        <p><strong>Limites da descoberta</strong></p>
+        <p>Apesar dos resultados promissores, o estudo também mostrou que a exposição prolongada ao fungo levou a uma mutação no gene <em>Rel</em> da bactéria, ativando mecanismos de resistência. Isso reforça que, mesmo com terapias microbianas, a evolução da resistência deve ser considerada desde o início.</p>
+       
+        <p><strong>Aplicações futuras</strong></p>
+        <p>A descoberta abre caminho para o desenvolvimento de novos antibióticos baseados em interações microbianas naturais, com potencial para conter infecções sem os efeitos colaterais típicos de medicamentos tradicionais.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/busca-saude-1920x1080.jpg" alt="Pesquisar sintomas online pode gerar mais confusão do que esclarecimento">
+        </div>
+        <h3>Pesquisar sintomas online pode gerar mais confusão do que esclarecimento</h3>
+        <p>Com a popularização de buscas baseadas em inteligência artificial, cresce o número de pessoas que recorrem à internet ao sentir sintomas incomuns. No entanto, especialistas alertam: apesar da praticidade, essa prática pode mais desinformar do que informar, especialmente quando envolve questões de saúde.</p>
+       
+        <p><strong>Principais riscos ao buscar sintomas online</strong></p>
+        <p><strong>Fontes não confiáveis:</strong> Muitos sites aparecem no topo por critérios comerciais, não científicos. Priorize instituições médicas reconhecidas ou órgãos de saúde pública.</p>
+        <p><strong>Erros da IA:</strong> Ferramentas de IA podem responder de forma rápida, mas sem clareza sobre suas fontes. Pior: podem inventar dados, fenômeno conhecido como “alucinação”.</p>
+        <p><strong>Perguntas mal formuladas:</strong> Buscar diagnósticos diretos pode induzir ao erro. Perguntas mais amplas, como "quais as causas possíveis de...?", oferecem uma visão mais completa e reduzem o pânico.</p>
+       
+        <p><strong>Consulta médica é insubstituível</strong></p>
+        <p>Mesmo com avanços em IA, apenas médicos têm acesso ao histórico do paciente e capacidade de realizar exames. Segundo a Dra. Sarah Sams, da Academia Americana de Médicos de Família, apenas profissionais de saúde podem avaliar com segurança a gravidade dos sintomas.</p>
+       
+        <p>Buscas online podem complementar a informação, mas não devem substituir o atendimento médico. Em situações graves, o tempo é essencial: procure ajuda presencial imediatamente.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/04/ovulo-e-espermatozoides-1920x1080.jpg" alt="Anticoncepcional masculino com gel bloqueador pode substituir a vasectomia">
+        </div>
+        <h3>Anticoncepcional masculino com gel bloqueador pode substituir a vasectomia</h3>
+        <p>A startup Contraline apresentou uma solução promissora para o controle de natalidade entre homens: um anticoncepcional injetável, reversível e não hormonal. Batizado de ADAM™, o produto utiliza um gel que bloqueia fisicamente a passagem dos espermatozoides, sem causar efeitos colaterais.</p>
+       
+        <p><strong>Como funciona o método</strong></p>
+        <p><strong>Aplicação simples e rápida:</strong> o procedimento leva cerca de 30 minutos, é minimamente invasivo e tem duração de até dois anos.</p>
+        <p><strong>Sem hormônios:</strong> o gel combina tecnologias seguras, incluindo ação do GLP1, usada para controle de peso e diabetes, sem interferir nos níveis hormonais masculinos.</p>
+        <p><strong>Reversível:</strong> ao contrário da vasectomia, o método pode ser revertido.</p>
+       
+        <p><strong>Resultados iniciais e expectativas</strong></p>
+        <p>Apresentado na American Urological Association, o método passou com sucesso pelos primeiros testes em humanos. A expectativa é de que o produto esteja disponível no mercado até 2028, marcando um avanço histórico na saúde reprodutiva masculina.</p>
+       
+        <p><strong>Contexto brasileiro</strong></p>
+        <p>O interesse por métodos contraceptivos entre os homens vem crescendo. Apenas no Brasil, o número de vasectomias subiu 40% entre 2022 e 2024, totalizando cerca de 95 mil procedimentos no último ano.</p>
+      </article>   
+  </section>
+
+
+  <section id="deu-ruim" class="news-section">
+    <h2>BUGOU!</h2>
+    <article class="news-article">
+        <div class="article-image">
+          <img src="https://www.tupi.fm/wp-content/uploads/2025/05/robo-destroi-objeto-funcionarios.jpg" alt="Robô humanoide tem surto em vídeo viral e reacende debates sobre segurança da IA">
+        </div>
+        <h3>Robô humanoide tem “surto” em vídeo viral e reacende debates sobre segurança da IA</h3>
+        <p>Um vídeo viral flagrou o momento em que um robô humanoide, preso a um guindaste, se debate violentamente e avança contra trabalhadores em uma linha de montagem industrial. A gravação gerou alvoroço nas redes sociais, com muitos usuários questionando se este seria o “início da rebelião das máquinas”.</p>
+       
+        <p>Apesar do tom dramático nas redes, ainda não se sabe o que causou o comportamento atípico do robô, tampouco o desfecho da situação. O incidente, embora isolado, levanta novas preocupações sobre o controle e os limites da inteligência artificial aplicada a robôs físicos.</p>
+       
+        <p><strong>IA física: nova fronteira tecnológica liderada pela Nvidia</strong></p>
+        <p>Enquanto isso, a Nvidia investe pesado no avanço da chamada IA física, um conceito voltado à aplicação da inteligência artificial em robôs que operam no mundo real. O modelo Isaac Gr00t N1, anunciado pela empresa, fornece a base para robôs humanoides capazes de realizar tarefas complexas com mais autonomia e segurança.</p>
+       
+        <p>Essa tecnologia promete revolucionar áreas como manufatura, logística e serviços, ao mesmo tempo que exige responsabilidade redobrada sobre segurança, ética e confiabilidade desses sistemas.</p>
+       
+        <p style="text-align: center; margin-top: 25px; margin-bottom: 15px;">
+            <a href="https://x.com/136Division/status/1918226763542569052" target="_blank" rel="noopener noreferrer" class="video-link-button">
+                Clique aqui para ver o vídeo
+            </a>
+        </p>
+      </article>
+
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://t.ctcdn.com.br/eslqfk4LwPPd2XqE1nbQ0uBag4k=/1024x576/smart/i824225.jpeg" alt="Usuários relatam lentidão e travamentos no Google Chrome em múltiplas plataformas">
+        </div>
+        <h3>Usuários relatam lentidão e travamentos no Google Chrome em múltiplas plataformas</h3>
+        <p>Usuários do Google Chrome estão enfrentando instabilidades no navegador desde o início de abril. As queixas envolvem lentidão, congelamentos e até falhas ao abrir o aplicativo em sistemas Windows, macOS e Android.</p>
+      
+        <p>Os problemas foram observados principalmente após a atualização para a versão 136, lançada em 29 de abril. Em fóruns do Google e no Reddit, internautas relatam que o navegador trava mesmo com poucas abas abertas, enquanto outros afirmam que o aplicativo sequer inicia.</p>
+      
+        <p>Casos foram confirmados em testes independentes realizados em computadores com Windows 11, sem extensões instaladas. Até o momento, o Google não se pronunciou oficialmente sobre a falha.</p>
+      
+        <p>Enquanto isso, recomenda-se cautela ao atualizar o navegador e, se necessário, o uso temporário de navegadores alternativos.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/02/deepseek__-1920x1080.jpg" alt="Microsoft proíbe funcionários de utilizarem o DeepSeek, IA chinesa rival do Copilot">
+        </div>
+        <h3>Microsoft proíbe funcionários de utilizarem o DeepSeek, IA chinesa rival do Copilot</h3>
+        <p>Funcionários da Microsoft estão proibidos de usar o DeepSeek, plataforma de inteligência artificial desenvolvida na China. A decisão foi confirmada pelo presidente da empresa, Brad Smith, durante uma audiência no Senado dos EUA. O veto se estende tanto à versão desktop quanto ao aplicativo móvel.</p>
+      
+        <p>O motivo está relacionado à segurança de dados: a DeepSeek armazena informações dos usuários em servidores chineses, o que, segundo Smith, levanta preocupações quanto à possibilidade de acesso por agências de inteligência da China. A big tech também não permitiu a distribuição do app em sua loja oficial.</p>
+      
+        <p>Embora o chatbot DeepSeek R1 esteja disponível no serviço Azure, ele é oferecido em versão de código aberto, sem vínculos com os servidores da empresa na China. O modelo passou por modificações internas antes da liberação.</p>
+      
+        <p>O caso destaca a crescente tensão geopolítica em torno da privacidade digital e do uso de IA estrangeira em ambientes corporativos.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/mistral-1920x1080.jpg" alt="IA da Mistral gera alerta global por conteúdo perigoso e falhas éticas">
+        </div>
+        <h3>IA da Mistral gera alerta global por conteúdo perigoso e falhas éticas</h3>
+        <p>Modelos de inteligência artificial desenvolvidos pela francesa Mistral — considerada a principal rival europeia da OpenAI — estão no centro de uma polêmica após relatório da Enkrypt AI revelar sérias vulnerabilidades. Segundo o estudo, os modelos Pixtral-Large e Pixtral-12B apresentaram até 60 vezes mais propensão a gerar conteúdo relacionado à exploração sexual infantil e instruções sobre armamentos químicos ilegais do que concorrentes como GPT-4o e Claude 3.7.</p>
+      
+        <p>Além disso, foram identificadas falhas em filtros de segurança: as IAs da Mistral conseguiram produzir informações sensíveis a partir de instruções ocultas em imagens, prática que contorna os sistemas de proteção convencionais.</p>
+      
+        <p>A Mistral se defendeu, destacando sua política de “tolerância zero” com conteúdos ilegais e afirmando estar revisando os achados com o apoio da ONG Thorn. A empresa, avaliada em € 6 bilhões, enfrenta agora pressão ética e política para reforçar seus protocolos de segurança.</p>
+      
+        <p>O caso reacende o debate sobre os riscos das IAs de código aberto em ambientes multimodais.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2024/10/shutterstock_2389207831-1920x1080.jpg" alt="Roblox é alvo de alerta por exposição de crianças a conteúdos impróprios">
+        </div>
+        <h3>Roblox é alvo de alerta por exposição de crianças a conteúdos impróprios</h3>
+        <p>Um estudo conduzido pela consultoria Revealing Reality revelou falhas graves de segurança no Roblox, uma das plataformas de jogos mais populares entre crianças. A pesquisa, divulgada pelo jornal The Guardian, demonstrou que menores de idade conseguem interagir facilmente com adultos, sem verificação efetiva de idade.</p>
+      
+        <p>Avatares fictícios criados pelos pesquisadores — com idades simuladas entre 5 e 13 anos — acessaram espaços com representações sexualmente sugestivas e ouviram conversas com conotação adulta por meio do chat por voz. Em um dos testes, uma personagem de 10 anos entrou em um ambiente onde avatares simulavam atividades sexuais.</p>
+      
+        <p>Embora a Roblox tenha implementado 40 novas medidas de segurança em 2024, especialistas afirmam que elas são insuficientes diante da quantidade de experiências oferecidas na plataforma, muitas com descrições vagas ou enganosas.</p>
+      
+        <p>A empresa reconhece o problema, mas afirma que a segurança online depende também de ações governamentais e da colaboração da indústria. Enquanto isso, o risco permanece alto para os cerca de 34 milhões de usuários com menos de 13 anos que acessam a plataforma diariamente.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2024/08/populacao-brasil-1024x641.jpg" alt="ONU alerta: estagnação do progresso humano é a maior em 35 anos; IA pode ser chave para reverter cenário">
+        </div>
+        <h3>ONU alerta: estagnação do progresso humano é a maior em 35 anos; IA pode ser chave para reverter cenário</h3>
+        <p>O Programa das Nações Unidas para o Desenvolvimento (PNUD) revelou que o avanço do desenvolvimento humano global está em seu nível mais baixo desde 1990. O Relatório de Desenvolvimento Humano de 2025 destaca que, mesmo após crises como a pandemia, o Índice de Desenvolvimento Humano (IDH) permaneceu estagnado em todo o mundo — e a desigualdade entre países ricos e pobres aumentou pelo quarto ano consecutivo.</p>
+      
+        <p>Em meio a esse cenário crítico, o relatório aponta que a inteligência artificial pode se tornar uma aliada estratégica na retomada do progresso. A condição, no entanto, é que ela seja aplicada de forma ética e centrada nas pessoas.</p>
+      
+        <p>A ONU sugere três frentes de atuação: colaboração entre humanos e IA nas economias, inclusão humana no ciclo de vida da tecnologia e modernização de setores-chave como saúde e educação.</p>
+      
+        <p>Segundo o estudo, em países com IDH baixo e médio, 70% dos entrevistados acreditam que a IA pode aumentar a produtividade e ajudar em serviços essenciais já no próximo ano.</p>
+      
+        <p>A mensagem da ONU é clara: a IA não é uma solução mágica, mas pode reacender o desenvolvimento global se usada com responsabilidade e foco social.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2024/07/Tesla-e17-1920x1080.jpg" alt="Tesla em crise na Europa: vendas caem até 81% enquanto concorrência cresce">
+        </div>
+        <h3>Tesla em crise na Europa: vendas caem até 81% enquanto concorrência cresce</h3>
+        <p>As vendas de carros novos da Tesla seguem em queda na Europa, mesmo com o crescimento do mercado de veículos elétricos no continente. Em abril, a montadora registrou queda de 36% na Espanha e impressionantes 81% na Suécia, seu pior desempenho em quase três anos. No acumulado dos primeiros quatro meses de 2025, as vendas caíram 37,2% na região.</p>
+      
+        <p>O cenário contrasta com o aumento de 28% nas vendas de elétricos na Europa, impulsionado por marcas concorrentes, como a chinesa BYD, que vem ganhando espaço com modelos mais acessíveis e atualizados.</p>
+      
+        <p>Além da concorrência, a Tesla enfrenta desgaste de imagem. O CEO Elon Musk tem adotado posturas políticas controversas, aproximando-se da extrema-direita e do ex-presidente Donald Trump — o que tem gerado protestos e descontentamento de consumidores.</p>
+      
+        <p>Nos Estados Unidos, a Tesla tenta conter a queda de interesse pelo Model Y oferecendo descontos, enquanto busca novos mercados na Índia e Arábia Saudita, apesar dos desafios com infraestrutura de recarga.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://t.ctcdn.com.br/AxGop7f5c-vlSl01tjD85_cnIMk=/1024x576/smart/i816017.jpeg" alt="Ex-funcionário da SK hynix é acusado de vazar dados sigilosos à Huawei">
+        </div>
+        <h3>Ex-funcionário da SK hynix é acusado de vazar dados sigilosos à Huawei</h3>
+        <p>Um ex-funcionário da divisão chinesa da SK hynix, identificado apenas como Kim, está sendo processado por roubo de dados altamente sensíveis da fabricante sul-coreana de chips de memória. Segundo o processo, Kim teria levado mais de 11 mil arquivos confidenciais ao deixar a empresa e se juntar à HiSilicon, divisão de semicondutores da Huawei.</p>
+      
+        <p>Entre as informações vazadas estariam tecnologias de empacotamento de wafers — essenciais na produção de memórias NAND, HBM e chiplets — e sensores de imagem CMOS. O conteúdo teria sido usado por Kim em seu currículo e até em entrevistas de emprego.</p>
+      
+        <p>A SK hynix confirmou o incidente, mas afirma que nenhuma técnica crítica de fabricação de memórias HBM atualmente em produção foi comprometida. A Huawei, até o momento, não se pronunciou oficialmente sobre o caso.</p>
+      
+        <p>Esse episódio reacende discussões sobre espionagem industrial e os desafios geopolíticos envolvendo transferência de tecnologia em setores estratégicos.</p>
+      </article>
+  </section>
+
+
+  <section id="noticias-variadas" class="news-section">
+    <h2>NOTÍCIAS VARIADAS</h2>
+    <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2024/12/windows-10-1920x1080.jpg" alt="Windows 10 se despede: suporte termina em outubro">
+        </div>
+        <h3>Windows 10 se despede: suporte termina em outubro</h3>
+        <p>A Microsoft reforçou o alerta: o suporte oficial ao Windows 10 será encerrado no dia 14 de outubro de 2025. A partir dessa data, o sistema deixará de receber atualizações de segurança, correções de bugs e suporte técnico — o que pode comprometer seriamente a proteção dos usuários.</p>
+      
+        <p>Segundo a empresa, continuar usando o sistema após o prazo pode expor os computadores a falhas de desempenho e riscos de segurança, como malwares e roubo de dados. Atualmente, mais de 60% dos PCs em uso ainda rodam o Windows 10, lançado em 2015.</p>
+      
+        <p>Para garantir proteção e compatibilidade, a recomendação é migrar o quanto antes para o Windows 11. A atualização pode ser feita por meio das configurações do sistema ou via assistente de instalação da Microsoft, disponível online.</p>
+      
+        <p>A Microsoft flexibilizou alguns requisitos para ampliar a base de usuários do novo sistema. Entre os destaques do Windows 11 estão o design mais moderno, integração com o Xbox e melhorias no navegador Edge.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://t.ctcdn.com.br/uC1TbUuzcjkiEfYkbWnpHxCRi-g=/1024x576/smart/i350860.jpeg" alt="Chips de 2 nm da TSMC prometem celulares com 30% mais autonomia">
+        </div>
+        <h3>Chips de 2 nm da TSMC prometem celulares com 30% mais autonomia</h3>
+        <p>A TSMC, maior fabricante mundial de chips, está prestes a revolucionar o mercado de smartphones com sua nova litografia de 2 nanômetros. Os novos chips prometem um desempenho 15% superior e consumo de energia 30% menor, o que pode se traduzir em maior duração de bateria em celulares topo de linha.</p>
+      
+        <p>A inovação se baseia na arquitetura de transistores Gate-All-Around (GAA), que oferece melhor controle do fluxo elétrico e eficiência energética. Apple, Qualcomm, Nvidia e outras gigantes já têm acesso antecipado à tecnologia, e o iPhone 18 deve ser o primeiro aparelho a utilizá-la, com lançamento previsto para 2026.</p>
+      
+        <p>A produção em massa dos chips de 2 nm começa ainda em 2025 nas fábricas da TSMC em Baoshan (China) e Kaohsiung (Taiwan), com planos de expansão até 2027. A chegada da tecnologia aos celulares intermediários, no entanto, deve demorar um pouco mais.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://t.ctcdn.com.br/mfxGAs6K6qYk-1SbXf3RlYtJkJs=/1024x576/smart/i1003885.jpeg" alt="Redes sociais são a principal fonte de informação para os brasileiros">
+        </div>
+        <h3>Redes sociais são a principal fonte de informação para os brasileiros</h3>
+        <p>Segundo uma pesquisa do Aláfia Lab, mais da metade dos brasileiros (51,6%) usa redes sociais como principal fonte de informação, consolidando uma tendência já observada nos últimos anos. Instagram (68,8%), YouTube (55,9%) e Facebook (43,7%) lideram a preferência entre as plataformas, todas pertencentes à Meta e ao Google.</p>
+      
+        <p>Apesar do crescimento das redes, a televisão ainda tem força: 49,6% dos entrevistados disseram preferir programas de TV para se informar. Sites de notícias (38,3%), buscadores (29,2%) e apps de mensagens (21%) completam o ranking.</p>
+      
+        <p>O WhatsApp se destaca entre os aplicativos de mensagens, com 90,1% de uso para consumo de notícias, seguido por Facebook Messenger (35,1%) e Telegram (32,4%).</p>
+      
+        <p>O levantamento, feito com 1.549 pessoas, também destaca como essas escolhas refletem desigualdades de acesso à informação no Brasil digital.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/02/Designer-27-1024x585.jpeg" alt="Conferência Mundial de Robôs 2025 revelará novos humanoides na China">
+        </div>
+        <h3>Conferência Mundial de Robôs 2025 revelará novos humanoides na China</h3>
+        <p>Entre os dias 8 e 12 de agosto, Pequim sediará a Conferência Mundial de Robôs 2025, um dos eventos mais aguardados do setor. Organizado pelo Instituto Chinês de Eletrônica e pela Organização Mundial de Cooperação de Robôs, o encontro reunirá mais de 200 empresas e 30 organizações internacionais, com destaque para quase 50 fabricantes de robôs humanoides.</p>
+      
+        <p>A expectativa é que cerca de 100 novos produtos sejam apresentados. A conferência abordará os avanços da robótica e discutirá aplicações industriais, cooperação global e futuros cenários para a tecnologia.</p>
+      
+        <p>O evento será seguido pelos Jogos Mundiais de Robôs Humanoides, de 15 a 17 de agosto, reforçando o papel central que a China vem assumindo no desenvolvimento global da robótica.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/rob-exercito-1-1920x1080.jpg" alt="França projeta exército de robôs para atuar em guerras até 2040">
+        </div>
+        <h3>França projeta exército de robôs para atuar em guerras até 2040</h3>
+        <p>A França está desenvolvendo um ambicioso plano militar: utilizar robôs como soldados até 2040. A proposta visa substituir humanos em operações de combate, com máquinas capazes de remover minas terrestres, proteger tropas e superar obstáculos em campo.</p>
+      
+        <p>Recentemente, o exército francês realizou seu terceiro teste com robôs equipados com rodas, pernas e correias, em uma base militar próxima a Paris. Apesar de ainda não atuarem de forma autônoma, as Forças Armadas trabalham para que isso se torne viável em até 15 anos.</p>
+      
+        <p>O avanço vem sendo acelerado pelo conflito na Ucrânia, que tem intensificado o uso de drones e outros dispositivos remotos, antecipando uma nova era na robótica militar.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2024/10/iStock-2148113350-1920x1080.jpg" alt="Brasil busca atrair Amazon e Nvidia para construir data centers no país">
+        </div>
+        <h3>Brasil busca atrair Amazon e Nvidia para construir data centers no país</h3>
+        <p>O governo brasileiro está em campanha para transformar o país em um polo de infraestrutura tecnológica. O ministro da Fazenda, Fernando Haddad, apresentará nos EUA o Plano Nacional dos Data Centers a executivos da Amazon e Nvidia, buscando firmar parcerias estratégicas.</p>
+      
+        <p>A proposta inclui isenções fiscais (PIS, Cofins, IPI e tarifas de importação) para empresas que investirem em centros de dados no Brasil, desde que cumpram requisitos de sustentabilidade, reservem parte da capacidade computacional ao mercado interno e invistam em pesquisa.</p>
+      
+        <p>A iniciativa aproveita o potencial do Brasil em energia renovável para atrair projetos sustentáveis de alto consumo energético, como os voltados à inteligência artificial. Estima-se que os investimentos possam atingir até R$ 2 trilhões na próxima década.</p>
+      
+        <p>O país se posiciona como alternativa estratégica em meio à disputa tecnológica entre EUA e China.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/02/Captura-de-tela-2025-02-11-182332-2048x1330.png" alt="Sam Altman desafia Elon Musk com novo “aplicativo para tudo”">
+        </div>
+        <h3>Sam Altman desafia Elon Musk com novo “aplicativo para tudo”</h3>
+        <p>A corrida por um superapp global está se intensificando. Sam Altman, CEO da OpenAI e fundador da Tools for Humanity, lançou oficialmente o World, um aplicativo multifuncional que combina carteira de criptomoedas, rede social e plataforma para miniaplicativos — tudo ancorado por uma identidade digital baseada em escaneamento de íris, o World ID.</p>
+      
+        <p>Com mais de 26 milhões de usuários mensais, o World utiliza a criptomoeda Worldcoin e planeja lançar um cartão de débito em parceria com a Visa. O sistema busca oferecer segurança contra bots e deepfakes, além de unificar pagamentos e interações sociais num só ecossistema.</p>
+      
+        <p>O movimento mira diretamente na estratégia de Elon Musk para o X (antigo Twitter), que também pretende incorporar funcionalidades financeiras e sociais robustas. Enquanto isso, a Meta avança com o Meta AI, app que mistura assistente virtual com feed social.</p>
+      
+        <p>O surgimento de múltiplos superapps evidencia uma transformação no cenário digital: as big techs querem controlar não só plataformas, mas ecossistemas completos de vida digital.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/04/shutterstock_2505170973.jpg" alt="Cidade britânica reduz uso de smartphones por crianças e vê impacto positivo">
+        </div>
+        <h3>Cidade britânica reduz uso de smartphones por crianças e vê impacto positivo</h3>
+        <p>St. Albans, no Reino Unido, tornou-se um exemplo global ao adotar uma política informal de restrição ao uso de smartphones por menores de 14 anos. A iniciativa, iniciada em 2024 por diretores de escolas locais, foi motivada por preocupações com o impacto psicológico e comportamental dos dispositivos nas crianças.</p>
+      
+        <p>O diretor Matthew Tavender liderou o movimento após incidentes envolvendo conteúdo impróprio entre alunos. Em um ano, o número de estudantes de 10 a 11 anos com smartphones caiu de 75% para 12%, refletindo a adesão das famílias ao projeto.</p>
+      
+        <p>Embora não haja dados sobre desempenho escolar, relatos de pais indicam melhorias no comportamento e aumento da prática de atividades físicas e interações sociais fora do ambiente digital. O caso reacende o debate sobre os limites tecnológicos na infância, especialmente frente ao aumento de ansiedade e distúrbios emocionais ligados ao uso excessivo de telas.</p>
+      
+        <p>A experiência de St. Albans reforça a ideia de que educação digital vai além da escola — envolve cultura familiar e escolhas coletivas.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/iStock-1768753810-1920x1080.jpg" alt="Reconhecimento facial avança sem controle no Brasil e pode vigiar até 83 milhões de pessoas">
+        </div>
+        <h3>Reconhecimento facial avança sem controle no Brasil e pode vigiar até 83 milhões de pessoas</h3>
+        <p>Um relatório da Defensoria Pública da União revelou que ao menos 376 projetos de reconhecimento facial estão em andamento no Brasil, com potencial para monitorar quase 40% da população. A pesquisa, feita em parceria com o CESeC, mostra que a expansão dessas tecnologias não acompanha um marco regulatório sólido, aumentando os riscos de violações de direitos.</p>
+      
+        <p>Segundo o documento, esses sistemas já causaram danos concretos: mais da metade das abordagens policiais com base em reconhecimento facial foram motivadas por erros. Estudos apontam ainda que há taxas de falha muito maiores para pessoas negras, indígenas e asiáticas, o que reforça padrões históricos de discriminação.</p>
+      
+        <p>Os especialistas alertam que o país, que adotou amplamente essas tecnologias após eventos como a Copa de 2014 e as Olimpíadas de 2016, segue com regulamentações frágeis. Mesmo o Projeto de Lei n.º 2338/2023, em tramitação no Congresso, é considerado insuficiente por conter exceções amplas que permitem o uso contínuo dos sistemas de vigilância.</p>
+      
+        <p>A Defensoria pede um debate público urgente e transparente, com a participação da sociedade civil, sobre os limites éticos e legais dessas tecnologias no país.</p>
+      </article>    
+  </section>
+  
+  
+  <section id="curiosidades" class="news-section">
+    <h2>CURIOSIDADES, ANÁLISES E DICAS</h2>  
+    <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/04/desaparecer-da-internet-1920x1080.png" alt="Próxima revolução tecnológica pode surpreender...">
+        </div>
+        <h3>Próxima revolução tecnológica pode surpreender...</h3>
+        <p>Em entrevista exclusiva ao Olhar Digital, Kathleen Kramer, CEO do IEEE — uma das mais importantes instituições de padronização tecnológica do mundo — afirmou que, após as revoluções do computador, comunicação, chips e inteligência artificial, o próximo salto poderá vir da área da energia.</p>
+      
+        <p>Com mais de 500 mil membros em 190 países, o IEEE foi responsável por padronizações que usamos diariamente, como Wi-Fi e Bluetooth. Agora, segundo Kramer, a entidade enxerga um novo ciclo emergindo: a reintegração entre hardware e software e uma valorização crescente de engenheiros multidisciplinares, capazes de entender ambos os mundos.</p>
+      
+        <p>Kramer destacou que, embora a inteligência artificial esteja no centro da inovação atual, há um risco crescente na dependência excessiva dessas ferramentas para aprendizado rápido. “Coisas que você aprende em 20 minutos com a IA dificilmente sustentam uma carreira sólida”, alerta. Para ela, a verdadeira diferenciação no mercado será construída com expertise aprofundada, difícil de ser substituída por algoritmos.</p>
+      
+        <p>E o futuro? Se a conversa fosse daqui a 10 anos, a CEO aposta que não estaríamos falando só de IA, mas sim da revolução energética: “A IA é o presente. A energia, talvez, seja o futuro”.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/20250430_1401352-1920x1080.jpg" alt="Web Summit Rio destaca 5 megatendências que estão moldando o futuro da tecnologia">
+        </div>
+        <h3>Web Summit Rio destaca 5 megatendências que estão moldando o futuro da tecnologia</h3>
+        <p>Na terceira edição do Web Summit Rio, realizado entre os dias 8 e 12 de maio, grandes nomes da tecnologia como Google, Meta, Nvidia e OpenAI se reuniram na capital fluminense para debater o futuro da inovação. O evento consolidou o Brasil como polo estratégico no calendário global até 2030. Confira as cinco principais tendências apresentadas:</p>
+      
+        <p><strong>Inteligência Artificial integrada ao cotidiano</strong><br>
+        A IA generativa deixou de ser novidade e se tornou ferramenta essencial em áreas como saúde, varejo e finanças. Destaque também para a “IA física”, que impulsiona o desenvolvimento de robôs assistivos com capacidades cada vez mais humanas.</p>
+      
+        <p><strong>Marketing digital orientado por dados</strong><br>
+        A hipersegmentação e personalização extrema marcaram as novas estratégias de marketing. Combinando big data e IA, marcas estão otimizando a jornada do consumidor com ações altamente direcionadas e contextuais.</p>
+      
+        <p><strong>Diversificação de formatos de conteúdo</strong><br>
+        Plataformas como YouTube, TikTok e Spotify defenderam a criação de ecossistemas de mídia mais amplos. O conteúdo multimodal — especialmente o áudio — ganhou espaço como alternativa viável e escalável ao vídeo tradicional.</p>
+      
+        <p><strong>Criadores como empreendedores</strong><br>
+        A economia da influência evoluiu: os criadores não são mais apenas produtores de conteúdo, mas gestores de comunidades e marcas próprias. A autenticidade e o engajamento são os novos ativos mais valiosos.</p>
+      
+        <p><strong>Fintechs brasileiras na vanguarda</strong><br>
+        O Brasil reafirmou sua liderança em inovação financeira. Soluções como o Pix e o uso comercial do WhatsApp foram amplamente exploradas como meios de impulsionar o comércio digital e inclusão bancária.</p>
+      
+        <p>Com essas tendências, o Web Summit Rio mostrou que o país não apenas acompanha o ritmo global da inovação — mas também pode liderar em áreas estratégicas como fintechs e criação de conteúdo.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://t.ctcdn.com.br/Sxhr4hGvVi8NvG2v6Sb8ClSXlg8=/1024x576/smart/i546230.jpeg" alt="Seis apps que mais consomem espaço no seu celular — e como lidar com eles">
+        </div>
+        <h3>Seis apps que mais consomem espaço no seu celular — e como lidar com eles</h3>
+        <p>Com o uso constante de smartphones, o espaço de armazenamento se tornou um recurso precioso. Alguns aplicativos populares são verdadeiros vilões da memória, ocupando mais espaço do que muitos usuários imaginam. Confira os principais e como reduzir esse impacto:</p>
+      
+        <p><strong>Facebook</strong><br>
+        Com mais de 360 MB de instalação, o app acumula cache com fotos e vídeos do feed. Com o tempo, isso pode ocupar mais de 1 GB se não for limpo periodicamente.</p>
+      
+        <p><strong>Instagram</strong><br>
+        Apesar de seu tamanho inicial ser cerca de 300 MB, o Instagram pode ultrapassar 1 GB com facilidade devido ao cache de stories, reels e mensagens no Direct.</p>
+      
+        <p><strong>WhatsApp</strong><br>
+        O mensageiro ocupa cerca de 200 MB, mas esse número sobe rápido com mídias compartilhadas e backups. Apagar arquivos antigos e limitar downloads automáticos ajuda.</p>
+      
+        <p><strong>Netflix</strong><br>
+        Além dos 165 MB iniciais, a plataforma armazena vídeos baixados e jogos internos, podendo consumir gigabytes se não houver controle do cache.</p>
+      
+        <p><strong>Apps de bancos</strong><br>
+        Frequentemente atualizados, eles mantêm cache de acessos para carregamento rápido, o que aumenta o uso de memória mesmo com apps de pequeno porte inicialmente.</p>
+      
+        <p><strong>Jogos</strong><br>
+        Títulos como Call of Duty: Mobile e Free Fire podem passar de 3 GB devido a gráficos pesados, pacotes de expansão e armazenamento temporário.</p>
+      
+        <p><strong>Dica:</strong> Limpe regularmente o cache dos apps nas configurações do sistema ou use ferramentas de otimização. Para apps como Instagram e Facebook, reinstalar ocasionalmente pode ajudar a liberar espaço.</p>
+      </article>
+
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://t.ctcdn.com.br/PnIxM8YIFSX2jbLvKiVAzC8MOu8=/1024x576/smart/i1002889.png" alt="5 razões para desligar o Wi-Fi do celular ao sair de casa">
+        </div>
+        <h3>5 razões para desligar o Wi-Fi do celular ao sair de casa</h3>
+        <p>Desativar o Wi-Fi do celular antes de sair pode parecer simples, mas traz benefícios importantes que vão desde economia de energia até segurança digital. Veja por que adotar esse hábito:</p>
+      
+        <p><strong>Economia de bateria</strong><br>
+        Mesmo sem conexão ativa, o Wi-Fi permanece buscando redes próximas, consumindo energia desnecessária e reduzindo a duração da bateria.</p>
+      
+        <p><strong>Desempenho otimizado</strong><br>
+        A busca contínua por redes também exige processamento, o que pode afetar o desempenho geral do celular, principalmente em modelos mais antigos.</p>
+      
+        <p><strong>Privacidade preservada</strong><br>
+        Ao buscar redes, o celular compartilha seu endereço MAC — identificador único que pode ser rastreado. Isso pode expor a localização do usuário sem consentimento.</p>
+      
+        <p><strong>Maior segurança contra hackers</strong><br>
+        Dispositivos com Wi-Fi ativado podem se conectar automaticamente a redes públicas maliciosas, facilitando ataques que roubam dados sensíveis.</p>
+      
+        <p><strong>Menos tempo online, mais saúde mental</strong><br>
+        Ficar offline pode ajudar a reduzir a dependência digital e favorecer a atenção ao ambiente ao redor, combatendo a chamada nomofobia — medo irracional de ficar desconectado.</p>
+      
+        <p><strong>Dica extra:</strong> para maior proteção, ative o uso de endereço MAC aleatório nas configurações de Wi-Fi do celular. Essa função dificulta o rastreamento em redes públicas.</p>
+      </article>
+
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://t.ctcdn.com.br/dV7NzxjG-4Ypd4zli58LMfnKZZM=/1024x576/smart/i911177.png" alt="Magalu lança IA no WhatsApp que transforma fotos em vídeos animados">
+        </div>
+        <h3>Magalu lança IA no WhatsApp que transforma fotos em vídeos animados</h3>
+        <p>Para celebrar o Dia das Mães, o Magazine Luiza lançou um recurso de inteligência artificial dentro do WhatsApp que transforma fotos estáticas em vídeos animados. A novidade, ativa até domingo (11), visa criar uma experiência emocional e interativa entre mães e filhos.</p>
+      
+        <p>A campanha, desenvolvida com a 20DASH e a Ogilvy Brasil, está disponível por meio da assistente virtual “Lu”, diretamente no aplicativo de mensagens da Meta.</p>
+      
+        <p><strong>Como funciona:</strong></p>
+        <ul>
+          <li>Inicie uma conversa com a Lu do Magalu no WhatsApp;</li>
+          <li>Digite "Oi" e selecione o assunto “Dia das Mães”;</li>
+          <li>Envie a foto desejada e aguarde a animação;</li>
+          <li>O vídeo final pode ser compartilhado com sua mãe ou nas redes sociais.</li>
+        </ul>
+      
+        <p>Além de reforçar o vínculo com os consumidores, a ação também posiciona o Magalu como referência no uso criativo de IA em datas comemorativas.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://t.ctcdn.com.br/nCJDMHcshfcTg2zyE-bzVqeXyiM=/1024x576/smart/i500279.jpeg" alt="Novo relógio atômico NIST-F4 redefine os limites da medição do tempo">
+        </div>
+        <h3>Novo relógio atômico NIST-F4 redefine os limites da medição do tempo</h3>
+        <p>Pesquisadores do Instituto Nacional de Padrões e Tecnologia (NIST), nos EUA, desenvolveram o NIST-F4, um relógio atômico de altíssima precisão que promete revolucionar a definição do tempo.</p>
+      
+        <p>O aparelho utiliza milhares de átomos de césio resfriados quase ao zero absoluto por lasers. Essas partículas oscilam cerca de 9 bilhões de vezes por segundo, funcionando como um pêndulo ultrassensível. A margem de erro do NIST-F4 é de apenas um segundo a cada 140 milhões de anos — uma das mais baixas já registradas.</p>
+      
+        <p>Desde abril, o relógio opera 90% do tempo e contribui diretamente para a calibração do Tempo Universal Coordenado (UTC), o padrão global de tempo.</p>
+      
+        <p>Esse avanço pode impactar áreas como GPS, telecomunicações e pesquisas científicas que dependem de medições temporais extremas.</p>
+      </article>
+      
+      <article class="news-article">
+        <div class="article-image">
+          <img src="https://img.olhardigital.com.br/wp-content/uploads/2025/05/AI-occupation-1920x1000.jpg" alt="As 13 profissões surpreendentes que só existem graças à inteligência artificial">
+        </div>
+        <h3>As 13 profissões surpreendentes que só existem graças à inteligência artificial</h3>
+        <p>A inteligência artificial não apenas elimina empregos tradicionais, mas também cria novas e inusitadas oportunidades. De acordo com o Fórum Econômico Mundial, até 2029 serão gerados 78 milhões de novas vagas ligadas ao uso e gestão de IA. Confira algumas das carreiras mais curiosas que já surgiram:</p>
+      
+        <ul>
+          <li><strong>Engenheiro de Personalidade de IA</strong> – Cria assistentes com traços humanos, como senso de humor ou empatia.</li>
+          <li><strong>Gerente de Ética em IA</strong> – Garante que os sistemas ajam com responsabilidade e sem viés.</li>
+          <li><strong>Auditor de Algoritmos</strong> – Avalia a transparência e os impactos de decisões algorítmicas.</li>
+          <li><strong>Especialista em Descontinuação de IA</strong> – Supervisiona a aposentadoria segura de sistemas ultrapassados.</li>
+          <li><strong>Treinador de IA</strong> – Ensina máquinas a entender linguagem natural com precisão.</li>
+          <li><strong>Curador de Dados para IA</strong> – Seleciona e limpa dados para treinar modelos confiáveis.</li>
+          <li><strong>Designer de Experiências Aumentadas</strong> – Integra IA à realidade aumentada em jogos, educação e marketing.</li>
+          <li><strong>Consultor de Produtividade com IA</strong> – Orienta empresas a automatizar tarefas sem perder criatividade humana.</li>
+          <li><strong>Curador de Metaverso</strong> – Constrói experiências interativas e sociais em ambientes digitais imersivos.</li>
+          <li><strong>Desenvolvedor de Personalidade de IA</strong> – Define o “estilo de conversa” de assistentes e chatbots.</li>
+          <li><strong>Gestor de Colaboração Humano-IA</strong> – Facilita a integração entre times humanos e sistemas autônomos.</li>
+          <li><strong>Estratégista de Privacidade Digital</strong> – Garante uso ético e legal de dados pessoais por IA.</li>
+          <li><strong>Designer de Interação Homem-Máquina</strong> – Cria interfaces mais naturais entre pessoas e máquinas.</li>
+        </ul>
+      
+        <p>O recado dos especialistas é claro: o futuro do trabalho não é ameaça, é adaptação. Quanto mais humanos souberem colaborar com a IA — e não competir com ela —, mais preparados estarão para as oportunidades que vêm por aí.</p>
+      </article>
+  </section>
+  
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="modal-close" class="modal-close">&times;</span>
+      <div id="modal-body">
+        </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const menuLinks = document.querySelectorAll('.menu ul li a');
+      const modal = document.getElementById('modal');
+      const modalBody = document.getElementById('modal-body');
+      const modalClose = document.getElementById('modal-close');
+      const highlightsGrid = document.querySelector('.highlights-grid');
+      const newsSectionsForHighlights = document.querySelectorAll('section.news-section');
+  
+      function clearModal() {
+        modalBody.innerHTML = "";
+      }
+  
+      function closeModal() {
+        modal.style.display = "none";
+        clearModal();
+      }
+  
+      modalClose.addEventListener('click', closeModal);
+      window.addEventListener('click', function (event) {
+        if (event.target === modal) closeModal();
+      });
+  
+      function openSectionInModal(targetSectionSelector) {
+        clearModal();
+        const targetSection = document.querySelector(targetSectionSelector);
+  
+        if (targetSection) {
+          const sectionTitleElement = targetSection.querySelector('h2');
+          if (sectionTitleElement) {
+            const modalSectionTitle = document.createElement('h2');
+            modalSectionTitle.className = 'section-title-in-modal';
+            modalSectionTitle.textContent = sectionTitleElement.textContent;
+            modalBody.appendChild(modalSectionTitle);
+          }
+  
+          const accordionContainer = document.createElement('div');
+          const articles = targetSection.querySelectorAll('article.news-article');
+  
+          articles.forEach(function (article, index) {
+            const header = document.createElement('div');
+            header.className = "accordion-header";
+            const titleElement = article.querySelector('h3');
+            header.textContent = titleElement ? titleElement.textContent.trim() : "Artigo " + (index + 1);
+  
+            const content = document.createElement('div');
+            content.className = "accordion-content";
+            const articleClone = article.cloneNode(true);
+  
+            content.appendChild(articleClone);
+            content.style.display = "none"; 
+  
+            header.addEventListener('click', function () {
+              const isActive = this.classList.contains('active');
+              accordionContainer.querySelectorAll('.accordion-content').forEach(c => {
+                if (c !== content) c.style.display = "none";
+              });
+              accordionContainer.querySelectorAll('.accordion-header').forEach(h => {
+                if (h !== this) h.classList.remove('active');
+              });
+  
+              if (isActive) {
+                content.style.display = "none";
+                this.classList.remove('active');
+              } else {
+                content.style.display = "block";
+                this.classList.add('active');
+                // Não há mais necessidade de reprocessar embed do Twitter aqui
+              }
+            });
+  
+            accordionContainer.appendChild(header);
+            accordionContainer.appendChild(content);
+          });
+  
+          modalBody.appendChild(accordionContainer);
+          modal.style.display = "block";
+        } else {
+          console.warn("Seção não encontrada:", targetSectionSelector);
+        }
+      }
+  
+      menuLinks.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetSectionSelector = this.getAttribute('data-section');
+          openSectionInModal(targetSectionSelector);
+        });
+      });
+  
+      if (highlightsGrid && newsSectionsForHighlights.length > 0) {
+        newsSectionsForHighlights.forEach(section => {
+          const sectionId = section.id;
+          const sectionTitleH2 = section.querySelector('h2');
+          const sectionTitleText = sectionTitleH2 ? sectionTitleH2.textContent : "Seção Desconhecida";
+  
+          const firstArticle = section.querySelector('article.news-article');
+          let firstArticleTitleText = "Clique para ver os artigos desta seção.";
+          let firstArticleImageSrc = "https://via.placeholder.com/260x150/555/eee?text=Sem+Imagem";
+  
+          if (firstArticle) {
+            const h3 = firstArticle.querySelector('h3');
+            if (h3) {
+              firstArticleTitleText = h3.textContent.trim();
+            }
+            const imageElement = firstArticle.querySelector('.article-image img');
+            if (imageElement && imageElement.src) {
+              firstArticleImageSrc = imageElement.src;
+            }
+          }
+  
+          const highlightItem = document.createElement('div');
+          highlightItem.className = 'highlight-item';
+          highlightItem.innerHTML = `
+            <h3>${sectionTitleText}</h3>
+            <img src="${firstArticleImageSrc}" alt="Miniatura para ${sectionTitleText}" class="highlight-thumbnail">
+            <p class="highlight-article-title">${firstArticleTitleText}</p>
+            <a href="#" data-section="#${sectionId}" class="read-more-link">Ver Seção Completa</a>
+          `;
+          highlightsGrid.appendChild(highlightItem);
+        });
+  
+        const highlightReadMoreLinks = highlightsGrid.querySelectorAll('a.read-more-link');
+        highlightReadMoreLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetSectionSelector = this.getAttribute('data-section');
+            openSectionInModal(targetSectionSelector);
+          });
+        });
+      } else {
+        if (!highlightsGrid) console.warn("Elemento .highlights-grid não encontrado.");
+        if (newsSectionsForHighlights.length === 0) console.warn("Nenhuma section.news-section encontrada para destaques.");
+      }
+  
+      document.querySelectorAll('section.news-section').forEach(newsSection => {
+        const articlesInSection = newsSection.querySelectorAll('article.news-article');
+        articlesInSection.forEach((art, idx, list) => {
+          if (idx < list.length - 1) {
+            const pauseMarker = document.createElement('p');
+            pauseMarker.className = 'tts-pause';
+            pauseMarker.textContent = '[[@~1500000]]';
+            art.parentNode.insertBefore(pauseMarker, art.nextSibling);
+          }
+        });
+      });
+    });
+  </script>
+  </body>
+</html>
